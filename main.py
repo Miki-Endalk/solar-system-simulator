@@ -75,3 +75,36 @@ def display():
     draw_hud(selected_planet)
 
     glutSwapBuffers()
+
+def update(value):
+    for planet in planets:
+        planet.update(INITIAL_SIMULATION_SPEED)
+
+    glutPostRedisplay()
+    glutTimerFunc(16, update, 0)
+
+def init():
+    glClearColor(0, 0, 0, 1)
+    glEnable(GL_DEPTH_TEST)
+
+# GLUT setup
+glutInit()
+glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH)
+
+glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT)
+glutCreateWindow(WINDOW_TITLE)
+
+init()
+
+glutKeyboardFunc(keyboard) #
+
+glMatrixMode(GL_PROJECTION)
+gluPerspective(45, WINDOW_WIDTH / WINDOW_HEIGHT, 1, 100)
+
+glMatrixMode(GL_MODELVIEW)
+
+glutDisplayFunc(display)
+
+glutTimerFunc(16, update, 0)
+
+glutMainLoop()
